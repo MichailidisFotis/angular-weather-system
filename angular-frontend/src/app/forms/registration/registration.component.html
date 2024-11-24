@@ -1,0 +1,56 @@
+
+<app-initial-navbar/>
+
+@if(error) {
+  <p-messages severity="error">
+    <ng-template pTemplate>
+      <i class="pi pi-times" style="color: red"></i>
+      <div class="ml-2">{{errMessage}}</div>
+  </ng-template>
+</p-messages>
+}
+
+@if(successfulRegistration) {
+  <p-messages severity="info">
+    <ng-template pTemplate>
+      <i class="pi pi-times" style="color: red"></i>
+      <div class="ml-2">{{successMessage}}</div>
+  </ng-template>
+</p-messages>
+}
+
+
+
+ <div class="wrapper">
+    <h2>Registration</h2>
+    <form #form ='ngForm' (ngSubmit)="register(form)">
+      <div class="input-box">
+        <input type="text" placeholder="Enter username"  ngModel name="username" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Enter your email"  ngModel name="email" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Enter your firstname"  ngModel name="firstname" required>
+      </div>
+      <div class="input-box">
+        <input type="text" placeholder="Enter your surname"  ngModel name="surname" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Create password" ngModel name="password" required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Confirm password" ngModel name="confirm-password" required>
+      </div>
+      <div class="policy">
+        <input type="checkbox">
+        <h3>I accept all terms & condition</h3>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Register Now">
+      </div>
+      <div class="text">
+        <h3>Already have an account? <a href="/">Login now</a></h3>
+      </div>
+    </form>
+  </div>

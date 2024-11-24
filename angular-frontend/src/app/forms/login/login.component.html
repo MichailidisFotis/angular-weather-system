@@ -1,0 +1,28 @@
+<app-initial-navbar/>
+
+  @if(error) {
+    <p-messages severity="error">
+      <ng-template pTemplate>
+        <i class="pi pi-times" style="color: red"></i>
+        <div class="ml-2">{{errMessage}}</div>
+    </ng-template>
+  </p-messages>
+  }
+
+ <div class="wrapper">
+    <h2>Login</h2>
+    <form #form="ngForm" (ngSubmit)="login(form)">
+      <div class="input-box">
+        <input type="text" placeholder="Enter your email" name="email" ngModel required>
+      </div>
+      <div class="input-box">
+        <input type="password" placeholder="Enter password" name="password" ngModel required>
+      </div>
+      <div class="input-box button">
+        <input type="Submit" value="Login">
+      </div>
+      <div class="text">
+        <h3>Don't have an account? <a href="/signup">Register now</a></h3>
+      </div>
+    </form>
+  </div>
