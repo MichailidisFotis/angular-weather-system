@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
+
+
 body{
   min-height: 100vh;
   display: flex;
@@ -17,7 +19,7 @@ body{
   border-radius: 6px;
   box-shadow: 0 5px 10px rgba(0,0,0,0.2);
   margin-left: 33%;
-  margin-top: 35px;
+  margin-top: 10px;
 }
 .wrapper h2{
   position: relative;
@@ -71,13 +73,16 @@ form h3{
   font-weight: 500;
   margin-left: 10px;
 }
-.input-box.button input{
-  color: #fff;
+.input-box.button input {
+  color: #ffffff;
   letter-spacing: 1px;
   border: none;
   background: #4070f4;
   cursor: pointer;
 }
+
+
+
 .input-box.button input:hover{
   background: #0e4bf1;
 }

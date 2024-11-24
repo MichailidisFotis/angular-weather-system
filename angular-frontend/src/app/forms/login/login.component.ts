@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { InitialNavbarComponent } from "../../general-components/initial-navbar/initial-navbar.component";
 import { FormsModule, NgForm } from '@angular/forms';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
+import { LoginService } from '../services/login.service';
+import { Router } from '@angular/router';
+
 
 
 @Component({
@@ -17,30 +20,50 @@ export class LoginComponent{
   error!:boolean;
   errMessage!:string;
   messages :Message[] |undefined;
+  loginService  = inject(LoginService);
 
+  router!:Router;
 
 
 login(form: NgForm) {
 
-  if(form.form.value.email.trim() ==''){
-    this.errMessage = 'email is missing'
-    this.error = true;
+  // if(form.form.value.email.trim() ==''){
+  //   this.errMessage = 'email is missing'
+  //   this.error = true;
+  // }
+
+  var user = {
+    username:form.form.value.username,
+    password:form.form.value.password
   }
 
-  if(form.form.value.password.trim() ==''){
-    this.errMessage = 'password is missing '
-    this.error = true;
-  }
+  this.loginService.login(user).subscribe(
+    {
+      next:((response)=>{
 
-  if (form.form.value.password.trim()=='' && form.form.value.email.trim() =='') {
-        this.errMessage = 'You have to add both credentials to login ';
+        //!ADD JWT handling!!!!!!!!!!!!!!!!!!!!!!!
+
+        // console.log(this.router)
+
+        //this.router.navigate(["/user/my-cities"]);
+
+        window.location.href = '/user/my-cities'; // Redirects to a new route
+
+      }),
+      error:((err)=>{
+
         this.error = true;
-  }
+        this.errMessage= err.message ??'Login interapted'
 
-  if (form.form.value.password.trim()!='' && form.form.value.email.trim() !='') {
-    this.errMessage = 'both';
-    this.error = false;
-  }
+        window.scrollTo({
+          top:0,
+          behavior:'smooth'
+        }); // Scroll to top after navigation
+
+      })
+    }
+  )
+
 
 
 }

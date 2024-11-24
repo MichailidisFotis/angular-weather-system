@@ -131,8 +131,10 @@ const login = async (req, res) => {
     req.session.preferences = loginUser.preferences;
 
     // return res.redirect("/users/userIndex");
-    return res.send({
-        message:"logged"
+
+    return res.status(200).send({
+        message:"logged",
+        login:true
     })
 
 
@@ -147,7 +149,8 @@ const login = async (req, res) => {
 const signout = async (req, res) => {
   req.session.destroy();
 
- return res.redirect("/");
+//  return res.redirect("/");
+    return res.send("signout!!!");
 };
 
 

@@ -2,19 +2,19 @@
 <app-initial-navbar/>
 
 @if(error) {
-  <p-messages severity="error">
+  <p-messages  severity="error">
     <ng-template pTemplate>
       <i class="pi pi-times" style="color: red"></i>
-      <div class="ml-2">{{errMessage}}</div>
+      <div class="ml-2"> {{errMessage}}</div>
   </ng-template>
 </p-messages>
 }
 
 @if(successfulRegistration) {
-  <p-messages severity="info">
+  <p-messages severity="success">
     <ng-template pTemplate>
-      <i class="pi pi-times" style="color: red"></i>
-      <div class="ml-2">{{successMessage}}</div>
+      <i class="pi pi-check" style="color: greenyellow"></i>
+      <div class="ml-2"> {{successMessage}}</div>
   </ng-template>
 </p-messages>
 }
@@ -40,7 +40,7 @@
         <input type="password" placeholder="Create password" ngModel name="password" required>
       </div>
       <div class="input-box">
-        <input type="password" placeholder="Confirm password" ngModel name="confirm-password" required>
+        <input type="password" placeholder="Confirm password" ngModel name="confirm_password" required>
       </div>
       <div class="policy">
         <input type="checkbox">

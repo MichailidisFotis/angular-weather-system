@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { InitialNavbarComponent } from './general-components/initial-navbar/initial-navbar.component';
 
+
 @Component({
   selector: 'app-root',
   standalone: true,
