@@ -1,1 +1,15 @@
-<p>user-page works!</p>
+<app-user-navbar [username]="username" />
+
+
+
+
+@if (!userHasPreferences) {
+
+  <app-no-content-card/>
+}
+@else{
+
+  <app-forecast-card-wraper>
+  </app-forecast-card-wraper>
+
+}

@@ -1,11 +1,13 @@
 function requireLogin(req , res , next){
     
-    if(req.session.username || req.session.user_id){
-
+    if(req.session.username){
+        console.log('ada');
         return next()
     }
     else{
-        res.redirect("/")
+        return res.send({
+            message:"Redirect"
+        })
     }
 }
 

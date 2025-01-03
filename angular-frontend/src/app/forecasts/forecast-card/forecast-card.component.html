@@ -1,0 +1,61 @@
+<div class="weather-card">
+  <div class="card-header">
+    <h6 class="location">{{city_name}}</h6>
+    <h6 class="time">{{time}}</h6>
+  </div>
+  <div class="card-body">
+    <h6 class="temperature">{{temperature}} &deg;C</h6>
+    <span class="condition">{{contition}}</span>
+  </div>
+  <div class="card-footer">
+    <div class="weather-info">
+      <div>
+        <i class="icon">🌬️</i>
+        <span>{{wind_speed}} Km/H</span>
+      </div>
+      <div>
+        <i class="icon">💧</i>
+        <span>{{humidity}}%</span>
+      </div>
+    </div>
+    <div class="weather-icon">
+      <img src={{icon_url}} alt="Weather Icon">
+    </div>
+  </div>
+    <div class="card-action">
+    <button class="forecast-btn" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable" (click)="onClick()">Get City Forecast</button>
+  </div>
+</div>
+
+
+
+  <!-- <div class="modal fade" id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" style="display: none;" aria-modal="true" role="dialog">
+
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalScrollableTitle">Modal </h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p>This is some placeholder content to show the scrolling behavior for modals. We use repeated line breaks to demonstrate how content can exceed minimum inner height, thereby showing inner scrolling. When content becomes longer than the predefined max-height of modal, content will be cropped and scrollable within the modal.</p>
+
+            <p>This content should appear at the bottom after you scroll.</p>
+            <hr class="hr" />
+          </div>
+          <div class="modal-body">
+            <p>This is some placeholder content to show the scrolling behavior for modals. We use repeated line breaks to demonstrate how content can exceed minimum inner height, thereby showing inner scrolling. When content becomes longer than the predefined max-height of modal, content will be cropped and scrollable within the modal.</p>
+            <p>This content should appear at the bottom after you scroll.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary">Save changes</button>
+          </div>
+        </div>
+      </div>
+  </div> -->
+
+
+
+
+

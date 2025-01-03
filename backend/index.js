@@ -10,7 +10,7 @@ import cors from "cors"
 import requireLogin from "./middlewares/requireLogin.js";
 
 import usersRouter from "./routes/users/users.js"
-import weaterRouter from "./routes/weather/weather.js"
+import weatherRouter from "./routes/weather/weather.js"
 
 
 const app =express();
@@ -22,20 +22,31 @@ const PORT = 5000
 var jsonParser = bodyParser.json();
 
 
-app.use(cors({  
-    origin: 'http://localhost:4200', 
-     credentials: true 
-  }))
 
-  
+app.use(cors({  
+  origin: 'http://localhost:4200', 
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+  credentials: true 
+
+}));
+
+// app.use(cors());
+
+
+app.use(bodyParser.json());
+
 app.use(session({
 	secret: 'secret',
 	resave: false,
 	saveUninitialized: true,
     cookie: {
+        httpOnly:true,
+        // sameSite:'none',
+        secure:false,
         maxAge:269999999999
       }
 }));
+
 
 const db_link =  process.env.db_link
 
@@ -45,7 +56,7 @@ mongoose.connect(db_link,{})
 
 
 app.use("/users" , usersRouter);
-app.use("/weather" , weaterRouter);
+app.use("/weather" , weatherRouter);
 
 
 

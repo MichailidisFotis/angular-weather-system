@@ -1,0 +1,47 @@
+  <div class="weather-wrapper">
+
+    @for (current of CurrentWeather(); track current.name) {
+      <app-forecast-card (forecastsChange)="onForecastsChange($event)" [city_name]="current.name" [temperature]="current.temperature_celc" [humidity]="current.humidity "
+       [time]="current.time" [wind_speed]="current.wind_kph" [contition]="current.condition.text" [icon_url]="current.condition.icon" ></app-forecast-card>
+
+    }
+
+
+    </div>
+
+
+      <div class="modal fade" id="exampleModalScrollable" tabindex="-1" aria-labelledby="exampleModalScrollableTitle" style="display: none;" aria-modal="true" role="dialog">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="weatherModalLabel">Weather Forecast</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+              @for(forecast of forecasts() ; track forecast.name){
+
+                <div class="weather-details">
+                  <div class="details">
+                    <p><strong>Date:</strong> <span>{{forecast.date}}</span></p>
+                    <p><strong></strong> <span>{{forecast.condition}}</span></p>
+                    <p><strong>Average Temperature:</strong> <span>{{forecast.temperature_celc}} &deg;C</span></p>
+                    <p><strong>Average Humidity:</strong> <span>{{forecast.humidity}}</span></p>
+
+                  </div>
+                  <div class="weather-icon-modal">
+                    <img id="weather-icon-modal" src={{forecast.icon}} alt="Weather Icon" />
+                  </div>
+                </div>
+                <hr class="hr" />
+              }
+            </div>
+
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+

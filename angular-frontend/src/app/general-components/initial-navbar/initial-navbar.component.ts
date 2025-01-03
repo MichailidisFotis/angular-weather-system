@@ -7,23 +7,23 @@ import { MenubarModule } from 'primeng/menubar';
   standalone: true,
   imports: [MenubarModule],
   templateUrl: './initial-navbar.component.html',
-  styleUrl: './initial-navbar.component.css'
+  styleUrl: './initial-navbar.component.css',
 })
 export class InitialNavbarComponent implements OnInit {
   items: MenuItem[] | undefined;
 
-    ngOnInit() {
-        this.items = [
-          {
-            label: 'Login',
-            icon: 'pi pi-sign-in',
-            routerLink: ['/']
-        },
-        {
-            label: 'Sign Up',
-            icon: 'pi pi-user-plus',
-            routerLink:["/signup"]
-        }
-        ]
-    }
+  ngOnInit() {
+    this.items = [
+      {
+        label: 'Login',
+        icon: 'pi pi-sign-in',
+        routerLink: ['/'],
+      },
+      {
+        label: 'Sign Up',
+        icon: 'pi pi-user-plus',
+        routerLink: ['/signup'],
+      },
+    ];
+  }
 }

@@ -18,7 +18,8 @@ router.post("/signup" , jsonParser , usersControler.signup)
 router.post("/signout", requireLogin , usersControler.signout)
 
 router.get("/get-all-users" ,jsonParser , usersControler.getUsers)
-router.get("/get-user-info" , jsonParser, requireLogin ,usersControler.get_user_inforamation)
+router.get("/get-user-info" ,jsonParser, requireLogin, usersControler.get_user_information)
+router.get("/check-logged-in" , usersControler.checkLoggedIn);
 
 router.patch("/update-preferences" , jsonParser ,requireLogin , usersControler.save_preferences)
 

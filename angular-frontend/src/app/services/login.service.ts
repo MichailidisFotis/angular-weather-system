@@ -1,14 +1,28 @@
 import { DestroyRef, inject, Injectable } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Login } from '../../models/login.model';
+import { Login } from '../models/login.model';
 
-import { catchError, throwError } from 'rxjs';
+import { catchError, map, Observable, throwError } from 'rxjs';
+import { response } from 'express';
 
-type BackendResponseType = {
+interface ErrorResponseType {
   message: string;
   login: boolean;
 };
+
+interface SuccessResponseType{
+  jwt:string
+  message:string;
+  login:boolean;
+};
+
+interface CheckLoggedInResponseType{
+    loggedIn:boolean
+}
+
+
+
 
 @Injectable({
   providedIn: 'root',
@@ -18,13 +32,14 @@ export class LoginService {
   private destroyRef = inject(DestroyRef);
 
   login(login_user: Login) {
-    return this.httpclient.post<BackendResponseType>(
+    return this.httpclient.post<SuccessResponseType>(
       'http://localhost:5000/users/login',
       {
         username:login_user.username,
         password:login_user.password
       },
       {
+        withCredentials:true,
         observe: 'response',
       }
     ).pipe(
@@ -45,4 +60,13 @@ export class LoginService {
 
     ;
   }
+
+ isLoggedIn(){
+    return this.httpclient.get<CheckLoggedInResponseType>('http://localhost:5000/users/check-logged-in',{
+      withCredentials:true,
+      observe: 'response',
+    });
+  }
+
+
 }

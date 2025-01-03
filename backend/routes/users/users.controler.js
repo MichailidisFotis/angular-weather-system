@@ -3,6 +3,9 @@ import validator from "email-validator";
 import bcrypt from "bcrypt";
 import register_user from "./validation_schemas/register_user.js";
 import userModel from "./models/userModel.js";
+import jwt from "jsonwebtoken";
+
+const accessTokenSecret = "myaccesstoken";
 
 //*route to get all users from the Database
 const getUsers = async (req, res) => {
@@ -85,6 +88,7 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   var username = req.body.username;
   var password = req.body.password;
+  var jwt_token;
 
   //*check if username is inserted
   if (!username)
@@ -111,35 +115,38 @@ const login = async (req, res) => {
     });
   }
 
-  var loginUser =  await bcrypt.compare(password,findUser.password);
+  var loginUser = await bcrypt.compare(password, findUser.password);
 
-
-//   const loginUser = await userModel.findOne({
-//     username: findUser.username,
-//     password: md5(password),
-//   });
-
-
-
+  //   const loginUser = await userModel.findOne({
+  //     username: findUser.username,
+  //     password: md5(password),
+  //   });
 
   if (loginUser) {
-    req.session.user_id = loginUser.id;
-    req.session.username = loginUser.username;
-    req.session.firstname = loginUser.firstname;
-    req.session.surname = loginUser.surname;
-    req.session.email = loginUser.email;
-    req.session.preferences = loginUser.preferences;
+    jwt_token = jwt.sign({ username: findUser.username }, accessTokenSecret);
 
+    console.log(findUser);
+    req.session.user_id = findUser._id
+    req.session.username = findUser.username;
+    req.session.firstname = findUser.firstname;
+    req.session.surname = findUser.surname;
+    req.session.email = findUser.email;
+    req.session.preferences = findUser.preferences;
+    req.session.token =  jwt_token;
+
+    console.log("Username: " + req.session.username);
     // return res.redirect("/users/userIndex");
 
+    // return res.send({
+    //   session: req.session,
+    // });
+
     return res.status(200).send({
-        message:"logged",
-        login:true
-    })
-
-
-
-} else
+      message: "logged",
+      login: true,
+      jwt: jwt_token,
+    });
+  } else
     return res.status(400).send({
       message: "Credentials are wrong",
       login: false,
@@ -149,18 +156,15 @@ const login = async (req, res) => {
 const signout = async (req, res) => {
   req.session.destroy();
 
-//  return res.redirect("/");
-    return res.send("signout!!!");
+  //  return res.redirect("/");
+  return res.send("signout!!!");
 };
 
-
 const save_preferences = async (req, res) => {
-  var preferences = req.body.preferences
-
-
+  var preferences = req.body.preferences;
 
   await userModel.findOneAndUpdate(
-    { _id: req.session.user_id },
+    // { _id: req.session.user_id },
     {
       preferences: preferences,
     }
@@ -168,24 +172,46 @@ const save_preferences = async (req, res) => {
 
   return res.status(200).send({
     message: "Preferences Updated",
-    update:true
+    update: true,
   });
-
-
 };
 
+const get_user_information = async (req, res) => {
+  console.log("Edo");
 
+  // return res.send({
+  //   session: req.session,
+  // });
 
-const get_user_inforamation = async (req, res) => {
   return res.status(200).send({
-    user_id: req.session.user_id,
     username: req.session.username,
     firtname: req.session.firstname,
     surname: req.session.surname,
     email: req.session.email,
     preferences: req.session.preferences,
+    token:req.session.token
   });
 };
+
+
+const checkLoggedIn =  async(req, res)=>{
+
+  console.log(req.session.token)
+
+  if (!req.session.token)
+    return res.send({
+      loggedIn:false
+    })
+
+  return res.send({
+    loggedIn:true
+  })
+  
+
+
+
+
+}
 
 
 
@@ -195,5 +221,6 @@ export default {
   login,
   signout,
   save_preferences,
-  get_user_inforamation,
+  get_user_information,
+  checkLoggedIn
 };

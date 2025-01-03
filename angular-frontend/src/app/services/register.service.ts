@@ -2,7 +2,7 @@ import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
-import { RegisterUser } from '../../models/register.model';
+import { RegisterUser } from '../models/register.model';
 import { catchError, throwError } from 'rxjs';
 import { error } from 'console';
 

@@ -3,15 +3,15 @@ import { InitialNavbarComponent } from "../../general-components/initial-navbar/
 import { FormsModule, NgForm } from '@angular/forms';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
-import { LoginService } from '../services/login.service';
+import { LoginService } from '../../services/login.service';
 import { Router } from '@angular/router';
-
+import { FloatLabelModule } from "primeng/floatlabel"
 
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [InitialNavbarComponent,FormsModule,MessagesModule],
+  imports: [InitialNavbarComponent,FormsModule,MessagesModule ,FloatLabelModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -22,7 +22,7 @@ export class LoginComponent{
   messages :Message[] |undefined;
   loginService  = inject(LoginService);
 
-  router!:Router;
+  router = inject(Router);
 
 
 login(form: NgForm) {
@@ -43,11 +43,12 @@ login(form: NgForm) {
 
         //!ADD JWT handling!!!!!!!!!!!!!!!!!!!!!!!
 
-        // console.log(this.router)
+         console.log(response);
 
-        //this.router.navigate(["/user/my-cities"]);
+        this.router.navigate(["/user/my-cities"]);
 
-        window.location.href = '/user/my-cities'; // Redirects to a new route
+
+        //window.location.href = '/user/my-cities'; // Redirects to a new route
 
       }),
       error:((err)=>{

@@ -14,8 +14,8 @@ const router = express.Router();
 
 
 
-router.get("/current-forecasts" ,  weatherControler.get_current_forecasts)
-
+router.get("/current-weather", requireLogin ,  weatherControler.get_current_weather);
+router.get("/forecasts",requireLogin,jsonParser , weatherControler.get_city_forecasts);
 
 
 

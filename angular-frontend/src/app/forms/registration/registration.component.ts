@@ -3,7 +3,7 @@ import { InitialNavbarComponent } from '../../general-components/initial-navbar/
 import { FormsModule, NgForm } from '@angular/forms';
 import { Message } from 'primeng/api';
 import { MessagesModule } from 'primeng/messages';
-import { RegisterService } from '../services/register.service';
+import { RegisterService } from '../../services/register.service';
 import { ViewportScroller } from '@angular/common';
 
 @Component({
