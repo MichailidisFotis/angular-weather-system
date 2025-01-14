@@ -2,33 +2,39 @@ import { DestroyRef, inject, Injectable } from '@angular/core';
 
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
+import { EditProfile } from '../models/EditProfile.model';
 
 
-interface Forecasts{
-  current:Object,
-  forecasts:[]
-
+interface Response{
+  message:string
 }
+
+
 
 
 @Injectable({
   providedIn: 'root',
 })
-export class GetCityForecast {
+export class EditProfileService {
   private httpclient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
 
 
 
-  getCityForecasts(city_name:string){
+  editProfile(user_info:EditProfile){
 
-    const params = new HttpParams().set('city_name', city_name);
+    //const params = new HttpParams().set('city_name', city_name);
 
-    return this.httpclient.get<Forecasts>(
-      'http://localhost:5000/weather/forecasts',
+    return this.httpclient.patch<Response>(
+      'http://localhost:5000/users/update-user-info',
       {
-        params: params,
+        new_username:user_info.new_username,
+        new_email:user_info.new_email,
+        new_firstname:user_info.new_firstname,
+        new_surname:user_info.new_surname
+      },
+      {
         withCredentials: true,
         observe: 'response'
       }

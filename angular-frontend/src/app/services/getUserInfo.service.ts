@@ -5,7 +5,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 type ResponseType = {
   username:string,
-  firtname:string,
+  firstname:string,
   surname:string,
   email:string,
   preferences:string[]

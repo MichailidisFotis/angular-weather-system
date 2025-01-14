@@ -10,34 +10,40 @@ import { MenubarModule } from 'primeng/menubar';
   styleUrl: './user-navbar.component.css',
 })
 export class UserNavbarComponent implements  OnChanges {
-  ngOnChanges(changes: SimpleChanges): void {
-    this.items = [
-      {
-        label: 'Home',
-        icon: 'pi pi-home',
-        routerLink: ['/user/my-cities'],
+   ngOnChanges(changes: SimpleChanges): void {
+  //   this.items = [
+  //     {
+  //       label: 'Home',
+  //       icon: 'pi pi-home',
+  //       routerLink: ['/user/my-cities'],
 
 
-      },
-      {
-        label: this.username,
-        icon: 'pi pi-user',
-        routerLink: ['/user/profile'],
+  //     },
+  //     {
+  //       label: this.username,
+  //       icon: 'pi pi-user',
+  //       routerLink: ['/user/profile'],
 
-      },
-      {
-        label: 'Logout',
-        icon: 'pi pi-sign-out',
-        routerLink: ['/user/signup'],
+  //     },
+  //     {
+  //       label: 'Logout',
+  //       icon: 'pi pi-sign-out',
+  //       routerLink: ['/user/signup'],
 
-      },
-    ];
+  //     },
+  //   ];
   }
+
   items: MenuItem[] | undefined;
 
-  @Input({required:true}) username!:string;
+  //@Input({required:true}) username!:string;
 
   isNavbarOpen: boolean = false;
+
+  @Input({required:true}) activeTab !:string
+
+
+  
 
   toggleNavbar() {
     this.isNavbarOpen = !this.isNavbarOpen;

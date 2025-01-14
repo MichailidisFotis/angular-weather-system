@@ -1,1 +1,14 @@
-<p>user-profile works!</p>
+<app-user-navbar [activeTab]="'profile'"/>
+
+<div class="container mt-5 mb-5">
+  <div class="row">
+    <!-- Profile Component -->
+    <div class="col-md-6">
+      <app-profile-info/>
+    </div>
+    <!-- Preferences Component -->
+    <div class="col-md-6">
+      <app-user-preferences-list/>
+    </div>
+  </div>
+</div>

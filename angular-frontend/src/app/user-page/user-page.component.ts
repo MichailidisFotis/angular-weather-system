@@ -21,7 +21,7 @@ export class UserPageComponent implements OnInit {
   private destroyRef = inject(DestroyRef);
 
   username =  ''
-  preferences !:[];
+  //preferences !:[];
 
 
   ngOnInit(){

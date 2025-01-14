@@ -33,7 +33,7 @@ export class RegistrationComponent {
     this.registerService.register(register_user).subscribe({
       next:((response)=>{
 
-        console.log(response['body']);
+        //console.log(response['body']);
 
         if(response.status ==201){
           this.successfulRegistration=true;
@@ -45,7 +45,7 @@ export class RegistrationComponent {
           }); // Scroll to top after navigation
         }
 
-          console.log(response.status)
+          //console.log(response.status)
           this.error = true;
           this.errMessage= response.body?.message ??'Error Registering user'
           this.successfulRegistration=false;

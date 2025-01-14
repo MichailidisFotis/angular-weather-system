@@ -1,0 +1,63 @@
+@if(error) {
+  <p-messages  severity="error">
+    <ng-template pTemplate>
+      <i class="pi pi-times" style="color: red"></i>
+      <div class="ml-2"> {{errMessage}}</div>
+  </ng-template>
+</p-messages>
+}
+
+@if(successfulEdit) {
+  <p-messages severity="success">
+    <ng-template pTemplate>
+      <i class="pi pi-check" style="color: greenyellow"></i>
+      <div class="ml-2"> {{successMessage}}</div>
+  </ng-template>
+</p-messages>
+}
+
+
+
+<div class="card p-4 shadow-bg" style="border-color: whitesmoke;">
+  <div class="row" style="justify-content: center;">
+    <!-- Profile Image Section -->
+    <div class="col-md-4 text-center">
+      <img class="rounded-circle mt-3" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg" alt="Profile Picture">
+      <h5 class="mt-3">{{username()}}</h5>
+      <p class="text-muted">{{email()}}</p>
+    </div>
+    <!-- Profile Information Section -->
+
+    <div class="col-md-8">
+      <h4 class="mb-4">Profile Information</h4>
+      <div class="row">
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Firstname</label>
+          <input #firstnameInput type="text" value="{{firstname()}}" class="form-control" placeholder="First name">
+        </div>
+        <div class="col-md-6 mb-3">
+          <label class="form-label">Surname</label>
+          <input #surnameInput value="{{surname()}}" type="text" class="form-control"  placeholder="Surname">
+        </div>
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input #usernameInput type="text" value="{{username()}}" class="form-control" placeholder="Enter phone number">
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Email</label>
+        <input #emailInput type="text" value="{{email()}}" class="form-control" placeholder="Enter email">
+      </div>
+      <div class="text-center">
+        <button (click)="updateProfile({
+          new_username:usernameInput.value,
+          new_email:emailInput.value,
+          new_firstname:firstnameInput.value,
+          new_surname:surnameInput.value
+        })" class="btn btn-primary" type="button">Update Information</button>
+      </div>
+    </div>
+
+
+  </div>
+</div>

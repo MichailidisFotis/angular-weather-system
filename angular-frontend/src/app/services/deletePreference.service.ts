@@ -4,9 +4,8 @@ import { HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse } 
 import { catchError, Observable, throwError } from 'rxjs';
 
 
-interface Forecasts{
-  current:Object,
-  forecasts:[]
+interface Response{
+  message:string
 
 }
 
@@ -14,19 +13,19 @@ interface Forecasts{
 @Injectable({
   providedIn: 'root',
 })
-export class GetCityForecast {
+export class DeletePreferenceService {
   private httpclient = inject(HttpClient);
   private destroyRef = inject(DestroyRef);
 
 
 
 
-  getCityForecasts(city_name:string){
+  deletePreference(city_name:string){
 
     const params = new HttpParams().set('city_name', city_name);
 
-    return this.httpclient.get<Forecasts>(
-      'http://localhost:5000/weather/forecasts',
+    return this.httpclient.delete<Response>(
+      'http://localhost:5000/users/delete-city-from-favorites',
       {
         params: params,
         withCredentials: true,

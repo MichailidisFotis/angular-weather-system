@@ -1,0 +1,58 @@
+<app-user-navbar [activeTab]="'search'" />
+
+@if(error) {
+  <p-messages severity="error">
+    <ng-template pTemplate>
+      <i class="pi pi-times" style="color: red"></i>
+      <div class="ml-2"> {{errMessage}}</div>
+  </ng-template>
+</p-messages>
+}
+
+
+
+<div class="container mt-5">
+  <h1 class="text-center mb-4">Weather Forecast</h1>
+
+  <!-- Search Section -->
+  <div class="input-group mb-3">
+
+    <!-- <form #form="ngForm" (ngSubmit)="search(form)"> -->
+      <input #input type="text" class="form-control" name="city" placeholder="Enter city name"/>
+      <button (click)="searchForecast(input.value)" class="btn btn-primary">Search</button>
+    <!-- </form> -->
+
+  </div>
+
+  <!-- Weather Card Section -->
+
+  @if(forecastReceived ){
+
+
+      <div class="card mt-4">
+        <div class="card-body">
+
+          @for(forecast of forecasts() ; track forecast.name){
+            <div class="weather-details">
+              <div class="details">
+                <p><strong>Date:</strong> <span>{{forecast.date}}</span></p>
+                <p><strong></strong> <span>{{forecast.condition}}</span></p>
+                <p><strong>Average Temperature:</strong> <span>{{forecast.temperature_celc}} &deg;C</span></p>
+                <p><strong>Average Humidity:</strong> <span>{{forecast.humidity}} %</span></p>
+
+              </div>
+              <div class="weather-icon-modal">
+                <img id="weather-icon-modal" src={{forecast.icon}} alt="Weather Icon" />
+              </div>
+            </div>
+            <hr class="hr"/>
+          }
+
+          <button class="btn btn-success" >
+            <i class="fas fa-star me-2"></i>
+          </button>
+        </div>
+      </div>
+    }
+
+  </div>

@@ -125,14 +125,14 @@ const login = async (req, res) => {
   if (loginUser) {
     jwt_token = jwt.sign({ username: findUser.username }, accessTokenSecret);
 
-    console.log(findUser);
-    req.session.user_id = findUser._id
+    //console.log(findUser);
+    req.session.user_id = findUser._id;
     req.session.username = findUser.username;
     req.session.firstname = findUser.firstname;
     req.session.surname = findUser.surname;
     req.session.email = findUser.email;
     req.session.preferences = findUser.preferences;
-    req.session.token =  jwt_token;
+    req.session.token = jwt_token;
 
     console.log("Username: " + req.session.username);
     // return res.redirect("/users/userIndex");
@@ -160,67 +160,144 @@ const signout = async (req, res) => {
   return res.send("signout!!!");
 };
 
-const save_preferences = async (req, res) => {
-  var preferences = req.body.preferences;
+// const save_preferences = async (req, res) => {
+//   var preferences = req.body.preferences;
 
-  await userModel.findOneAndUpdate(
-    // { _id: req.session.user_id },
-    {
-      preferences: preferences,
-    }
-  );
+//   await userModel.findOneAndUpdate(
+//     // { _id: req.session.user_id },
+//     {
+//       preferences: preferences,
+//     }
+//   );
 
-  return res.status(200).send({
-    message: "Preferences Updated",
-    update: true,
-  });
-};
+//   return res.status(200).send({
+//     message: "Preferences Updated",
+//     update: true,
+//   });
+// };
 
 const get_user_information = async (req, res) => {
-  console.log("Edo");
-
   // return res.send({
   //   session: req.session,
   // });
 
   return res.status(200).send({
     username: req.session.username,
-    firtname: req.session.firstname,
+    firstname: req.session.firstname,
     surname: req.session.surname,
     email: req.session.email,
     preferences: req.session.preferences,
-    token:req.session.token
+    token: req.session.token,
   });
 };
 
-
-const checkLoggedIn =  async(req, res)=>{
-
-  console.log(req.session.token)
+const checkLoggedIn = async (req, res) => {
+  console.log(req.session.token);
 
   if (!req.session.token)
     return res.send({
-      loggedIn:false
-    })
+      loggedIn: false,
+    });
 
   return res.send({
-    loggedIn:true
-  })
-  
+    loggedIn: true,
+  });
+};
+
+const deletePreference = async (req, res) => {
+  console.log("deleting");
+
+  var preferences = req.session.preferences;
+
+  console.log(preferences);
+
+  var preference_to_delete = req.query.city_name;
+
+  if (!Array.isArray(preferences)) preferences = [preferences];
+
+  //  preferences.filter((preference)=>{
+  //     preference !== preference_to_delete
+  // });
+
+  var index = preferences.findIndex(
+    (preference) => preference === preference_to_delete
+  );
+
+  console.log("up:" + index);
+
+  preferences.splice(index, 1);
+
+  // if(!Array.isArray(updated_preferences_list))
+  //   updated_preferences_list = [updated_preferences_list];
+
+  await userModel.findOneAndUpdate(
+    { _id: req.session.user_id },
+    {
+      preferences: preferences,
+    }
+  );
+
+  req.session.preferences = preferences;
+
+  return res.status(200).send({
+    message: "deleted",
+  });
+};
+
+const update_user_info = async (req, res) => {
+  var { new_username, new_firstname, new_surname, new_email } = req.body;
+
+  //var getUserInfo = await userModel.findById(req.session.user_id);
+
+  var username_exists = await userModel.find({
+    _id: { $ne: req.session.user_id },
+    username: new_username,
+  });
+
+  if (username_exists.length > 0)
+    return res.status(400).send({
+      message: "Username already exists",
+    });
+
+  var email_exists = await userModel.find({
+    _id: { $ne: req.session.user_id },
+    email: new_email,
+  });
+
+  if (email_exists.length > 0)
+    return res.status(400).send({
+      message: "Email already exists",
+    });
+
+  await userModel.findOneAndUpdate(
+    { _id: req.session.user_id },
+    {
+      username: new_username,
+      firstname: new_firstname,
+      surname: new_surname,
+      email: new_email,
+    }
+  );
 
 
+  req.session.username = new_username;
+  req.session.firstname =  new_firstname;
+  req.session.suraname =  new_surname;
+  req.session.email =  new_email; 
 
-
-}
-
-
+  return res.send({
+    message:"Information updated"
+  });
+};
 
 export default {
   getUsers,
   signup,
   login,
   signout,
-  save_preferences,
+  //save_preferences,
   get_user_information,
-  checkLoggedIn
+  deletePreference,
+  update_user_info,
+  checkLoggedIn,
 };

@@ -64,47 +64,55 @@ const get_city_forecasts =  async(req,res)=>{
         
         var response_body;
 
-        await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${api_key}&days=7&q=${city_name}&aqi=no`)
-        .then((response)=>{
-
-            
-            current ={
-                "name":response.data.location.name ,
-                "time":  ""+response.data.location.localtime.split(" ")[1],
-                "temperature_celc":response.data.current.temp_c,
-                "condition":response.data.current.condition,
-                "wind_kph":response.data.current.wind_kph,
-                "humidity":response.data.current.humidity
-            };
-
-            var forecast_days =  response.data.forecast.forecastday;
-
-            if(!Array.isArray(forecast_days))
-                forecast_days = [forecast_days];
-            
-
-            forecast_days.forEach((day)=>{
-                forecasts.push({
-                    "name":city_name,
-                    "date":day.date,
-                    "humidity": day.day.avghumidity,
-                    "temperature_celc": day.day.avgtemp_c,
-                    "condition": day.day.condition.text,
-                    "icon": day.day.condition.icon
+        try {
+            await axios.get(`http://api.weatherapi.com/v1/forecast.json?key=${api_key}&days=7&q=${city_name}&aqi=no`)
+            .then((response)=>{
+    
+                
+                current ={
+                    "name":response.data.location.name ,
+                    "time":  ""+response.data.location.localtime.split(" ")[1],
+                    "temperature_celc":response.data.current.temp_c,
+                    "condition":response.data.current.condition,
+                    "wind_kph":response.data.current.wind_kph,
+                    "humidity":response.data.current.humidity
+                };
+    
+                var forecast_days =  response.data.forecast.forecastday;
+    
+                if(!Array.isArray(forecast_days))
+                    forecast_days = [forecast_days];
+                
+    
+                forecast_days.forEach((day)=>{
+                    forecasts.push({
+                        "name":city_name,
+                        "date":day.date,
+                        "humidity": day.day.avghumidity,
+                        "temperature_celc": day.day.avgtemp_c,
+                        "condition": day.day.condition.text,
+                        "icon": day.day.condition.icon
+                    });
                 });
+    
+    
+                response_body = {
+                    current,
+                    forecasts
+                }
+                
+    
+                
+                
             });
-
-
-            response_body = {
-                current,
-                forecasts
-            }
             
-
             return res.send(response_body);
-
-
-        });
+            
+        } catch (error) {
+            return res.status(400).send({
+                message: "No matching location found."
+            })
+        }
 
 
 }

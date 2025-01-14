@@ -6,6 +6,7 @@ import { UserProfileComponent } from './profile/user-profile/user-profile.compon
 
 
 import { authGuard } from './guards/auth.guard';
+import { SearchForecastComponent } from './search/search-forecast/search-forecast.component';
 
 
 export const routes: Routes = [
@@ -25,6 +26,11 @@ export const routes: Routes = [
 {
   path:"user/my-profile",
   component:UserProfileComponent,
+  canActivate:[authGuard]
+},
+{
+  path:"user/search",
+  component:SearchForecastComponent,
   canActivate:[authGuard]
 },
 {

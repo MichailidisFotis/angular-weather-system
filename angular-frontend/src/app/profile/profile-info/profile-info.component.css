@@ -1,0 +1,18 @@
+.card {
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem;
+}
+
+img.rounded-circle {
+  border: 2px solid #ddd;
+}
+
+h4 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+button {
+  margin-top: 1rem;
+}
