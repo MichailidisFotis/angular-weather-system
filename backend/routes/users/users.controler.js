@@ -282,7 +282,7 @@ const update_user_info = async (req, res) => {
 
   req.session.username = new_username;
   req.session.firstname =  new_firstname;
-  req.session.suraname =  new_surname;
+  req.session.surname =  new_surname;
   req.session.email =  new_email; 
 
   return res.send({

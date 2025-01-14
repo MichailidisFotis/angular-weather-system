@@ -10,102 +10,80 @@ import { EditProfile } from '../../models/EditProfile.model';
 @Component({
   selector: 'app-profile-info',
   standalone: true,
-  imports: [UserPreferencesListComponent , MessagesModule],
+  imports: [UserPreferencesListComponent, MessagesModule],
   templateUrl: './profile-info.component.html',
-  styleUrl: './profile-info.component.css'
+  styleUrl: './profile-info.component.css',
 })
-export class ProfileInfoComponent implements OnInit{
-
+export class ProfileInfoComponent implements OnInit {
   getUserInfoService = inject(GetUserInfoService);
-  editProfileService =  inject(EditProfileService);
+  editProfileService = inject(EditProfileService);
 
   error!: boolean;
-  errMessage !:  string ;
+  errMessage!: string;
 
-  successfulEdit  =  false;
-  successMessage: string|undefined;
-
+  successfulEdit = false;
+  successMessage: string | undefined;
 
   //username ?:string ;
- // firstname ?:string;
+  // firstname ?:string;
   //surname ?:string;
   //email?:string
 
-
   username = signal<string | undefined>(undefined);
-  firstname  =signal<string|undefined>(undefined);
-  surname =signal<string|undefined>(undefined);
-  email =signal<string|undefined>(undefined);
-
+  firstname = signal<string | undefined>(undefined);
+  surname = signal<string | undefined>(undefined);
+  email = signal<string | undefined>(undefined);
 
   ngOnInit(): void {
-    //throw new Error('Method not implemented.');
+
     this.getUserInfoService.getInfo().subscribe({
-      next:((response)=>{
+      next: (response) => {
+        console.log('surname:'+response.body?.surname);
 
-          console.log(response.body?.firstname);
+        // this.username =  response.body?.username;
+        // this.email = response.body?.email;
+        // this.firstname =  response.body?.firstname;
+        // this.surname =  response.body?.surname;
 
-          // this.username =  response.body?.username;
-          // this.email = response.body?.email;
-          // this.firstname =  response.body?.firstname;
-          // this.surname =  response.body?.surname;
-
-
-          this.username.set(response.body?.username);
-          this.email.set(response.body?.email);
-          this.firstname.set( response.body?.firstname);
-          this.surname.set(response.body?.surname);
-
-
-      }),
-    })
-
-
-
+        this.username.set(response.body?.username);
+        this.email.set(response.body?.email);
+        this.firstname.set(response.body?.firstname);
+        this.surname.set(response.body?.surname);
+      },
+    });
   }
 
+  updateProfile(body: EditProfile) {
 
-  updateProfile(body:EditProfile){
+
+    console.log('new:'+body.new_surname);
 
     this.editProfileService.editProfile(body).subscribe({
-      next:((response)=>{
+      next: (response) => {
+        this.successfulEdit = true;
+        this.error = false;
+        this.successMessage = response.body?.message;
 
-          this.successfulEdit=true;
-          this.error = false;
-          this.successMessage = response.body?.message
-
-          this.username.set(body.new_username);
-          this.email.set(body.new_email);
-          this.firstname.set(body.new_firstname);
-          this.surname.set(body.new_surname);
-
-
-          window.scrollTo({
-            top:0,
-            behavior:'smooth'
-          });
-
-      }),
-      error:(err)=>{
-        this.error = true;
-        this.errMessage= err.message ??'Error Registering user'
-        this.successfulEdit=false;
-
+        this.username.set(body.new_username);
+        this.email.set(body.new_email);
+        this.surname.set(body.new_surname);
+        this.firstname.set(body.new_firstname);
 
         window.scrollTo({
-          top:0,
-          behavior:'smooth'
+          top: 0,
+          behavior: 'smooth',
         });
-      }
+      },
+      error: (err) => {
+        this.error = true;
+        this.errMessage = err.message ?? 'Error Registering user';
+        this.successfulEdit = false;
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
     });
-
-
-
-
-
   }
-
-
-
-
 }
