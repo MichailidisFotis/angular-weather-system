@@ -27,6 +27,9 @@ export class UserPreferencesListComponent implements OnInit {
 
         this.preferences.set(response.body?.preferences);
 
+        console.log(this.preferences());
+
+
         if (response.body?.preferences.length == 0)
           this.userHasPreferences = false;
         else this.userHasPreferences = true;

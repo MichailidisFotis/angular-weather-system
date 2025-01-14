@@ -22,7 +22,7 @@ router.get("/get-user-info" ,jsonParser, requireLogin, usersControler.get_user_i
 router.get("/check-logged-in" , usersControler.checkLoggedIn);
 
 router.patch("/update-user-info" , jsonParser ,requireLogin , usersControler.update_user_info);
-
+router.patch("/add-preference", jsonParser, requireLogin , usersControler.add_preference);
 
 router.delete("/delete-city-from-favorites" , jsonParser , requireLogin ,  usersControler.deletePreference);
 

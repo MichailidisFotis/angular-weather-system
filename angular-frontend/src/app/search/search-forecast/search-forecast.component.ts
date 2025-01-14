@@ -1,9 +1,12 @@
 import { Component, EventEmitter, inject, Output, signal } from '@angular/core';
 import { UserNavbarComponent } from '../../general-components/user-navbar/user-navbar.component';
 import { FormsModule, NgForm } from '@angular/forms';
-import { GetCityForecast } from '../../services/getCityForecast.service';
-import { Forecasts } from '../../models/Forecasts.model';
 import { MessagesModule } from 'primeng/messages';
+
+import { Forecasts } from '../../models/Forecasts.model';
+
+import { GetCityForecast } from '../../services/getCityForecast.service';
+import { AddPreferenceService } from '../../services/addPreference.service';
 
 
 
@@ -16,20 +19,24 @@ import { MessagesModule } from 'primeng/messages';
 })
 export class SearchForecastComponent {
   getCityForecastService = inject(GetCityForecast);
+  addPreferenceService =  inject(AddPreferenceService);
+
   //@Output() forecastsChange = new EventEmitter<Forecasts[] | undefined>();
   forecasts = signal<Forecasts[] | undefined>(undefined);
 
   error!:boolean;
   errMessage!:string;
 
-
+  city_name?: string
 
   forecastReceived !:boolean;
+  successMessage: string | undefined;
+  successfulAdd?: boolean;
 
   searchForecast(city:string) {
-    var cityName = city;
+    this.city_name = city;
 
-    this.getCityForecastService.getCityForecasts(cityName).subscribe({
+    this.getCityForecastService.getCityForecasts(this.city_name).subscribe({
       next: (response) => {
         this.forecasts.set(response.body?.forecasts);
         console.log(this.forecasts());
@@ -54,4 +61,36 @@ export class SearchForecastComponent {
 
     });
   }
+
+  addToPreferences(){
+
+    this.addPreferenceService.addPreference(this.city_name).subscribe({
+      next: (response) => {
+        this.successfulAdd = true;
+        this.error = false;
+        this.successMessage = response.body?.message;
+
+
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
+      error: (err) => {
+        this.error = true;
+        this.errMessage = err.message ?? 'Error Registering user';
+        this.successfulAdd = false;
+
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+      },
+    });
+
+
+  }
+
+
 }

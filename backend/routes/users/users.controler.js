@@ -290,11 +290,60 @@ const update_user_info = async (req, res) => {
   });
 };
 
+const add_preference =  async(req, res)=>{
+    
+  
+    var city_name =  req.body.city_name;
+
+    var current_preferences =  req.session.preferences;
+
+    console.log('current:',current_preferences);
+
+
+    if(!Array.isArray(current_preferences))
+      current_preferences = [current_preferences];
+    
+    current_preferences.push(city_name);
+
+    console.log(current_preferences);
+
+    var preference_set = new Set(current_preferences);
+
+    console.log('set:',preference_set);
+
+
+      await userModel.findOneAndUpdate(
+        { _id: req.session.user_id },
+        {
+          preferences:[...preference_set]
+        }
+      );
+
+      req.session.preferences =  [...preference_set];
+
+      console.log('size:'+preference_set.size);
+      console.log('length:'+current_preferences.length);
+
+      if (preference_set.size != current_preferences.length)
+        return res.status(400).send({
+          message: "City already to favorites!!!",
+        });
+      else
+        return res.send({
+          message: "City added to favorites!!!",
+        });
+
+
+};
+
+
+
 export default {
   getUsers,
   signup,
   login,
   signout,
+  add_preference,
   //save_preferences,
   get_user_information,
   deletePreference,

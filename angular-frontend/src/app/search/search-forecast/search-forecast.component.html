@@ -10,6 +10,15 @@
 }
 
 
+@if(successfulAdd) {
+  <p-messages severity="success">
+    <ng-template pTemplate>
+      <i class="pi pi-check" style="color: greenyellow"></i>
+      <div class="ml-2"> {{successMessage}}</div>
+  </ng-template>
+</p-messages>
+}
+
 
 <div class="container mt-5">
   <h1 class="text-center mb-4">Weather Forecast</h1>
@@ -48,7 +57,7 @@
             <hr class="hr"/>
           }
 
-          <button class="btn btn-success" >
+          <button (click)="addToPreferences()" class="btn btn-success" >
             <i class="fas fa-star me-2"></i>
           </button>
         </div>
