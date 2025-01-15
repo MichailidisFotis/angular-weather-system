@@ -7,6 +7,8 @@ import bodyParser from "body-parser";
 import dotenv from "dotenv"
 import cors from "cors"
 
+import MongoStore from 'connect-mongo';
+
 import requireLogin from "./middlewares/requireLogin.js";
 
 import usersRouter from "./routes/users/users.js"
@@ -19,7 +21,11 @@ dotenv.config()
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PORT = 5000
+const db_link =  process.env.db_link
+
 var jsonParser = bodyParser.json();
+
+
 
 
 
@@ -35,20 +41,25 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.use(session({
-	secret: 'secret',
-	resave: false,
-	saveUninitialized: true,
+app.use(
+  session({
+    secret: "secret",
+    resave: false,
+    saveUninitialized: true,
     cookie: {
-        httpOnly:true,
-        // sameSite:'none',
-        secure:false,
-        maxAge:269999999999
-      }
-}));
+      httpOnly: true,
+      // sameSite:'none',
+      secure: false,
+      maxAge: 269999999999,
+    },
+
+    store: MongoStore.create({
+      mongoUrl:db_link
+    })
+  })
+);
 
 
-const db_link =  process.env.db_link
 
 mongoose.connect(db_link,{})
 .then((res)=>console.log("Database Connected"))

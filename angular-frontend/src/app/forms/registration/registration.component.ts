@@ -46,9 +46,9 @@ export class RegistrationComponent {
         }
 
           //console.log(response.status)
-          this.error = true;
-          this.errMessage= response.body?.message ??'Error Registering user'
-          this.successfulRegistration=false;
+          // this.error = true;
+          // this.errMessage= response.body?.message ??'Error Registering user'
+          // this.successfulRegistration=false;
 
 
       }),
