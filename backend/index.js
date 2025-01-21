@@ -68,7 +68,9 @@ mongoose.connect(db_link,{})
 
 app.use("/users" , usersRouter);
 app.use("/weather" , weatherRouter);
-
+app.get("/" ,(req , res)=>{
+    res.send('API WORKS');
+});
 
 
 
